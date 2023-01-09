@@ -1,0 +1,11 @@
+# Check if the service is running
+
+$service = Get-Service -Name "Service Name" -ComputerName "Server Name"
+
+if ($service.Status -ne "Running") {
+  # Send email if the service is not running
+  $to = "email@example.com"
+  $subject = "Service stopped on Server Name"
+  $body = "The 'Service Name' service has stopped on Server Name. Please start the service and investigate the issue."
+  Send-MailMessage -To $to -Subject $subject -Body $body -SmtpServer "smtp.example.com"
+}
