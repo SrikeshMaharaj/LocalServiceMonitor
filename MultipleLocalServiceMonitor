@@ -1,0 +1,19 @@
+#Modified version that allows you to monitor a specific service on "multiple" remote Windows servers:
+
+# List of servers to check
+$servers = "Server1", "Server2", "Server3"
+
+# Name of the service to check
+$serviceName = "Service Name"
+
+foreach ($server in $servers) {
+  # Check if the service is running on the current server
+  $service = Get-Service -Name $serviceName -ComputerName $server
+  if ($service.Status -ne "Running") {
+    # Send email if the service is not running
+    $to = "email@example.com"
+    $subject = "'$serviceName' service stopped on $server"
+    $body = "The '$serviceName' service has stopped on $server. Please start the service and investigate the issue."
+    Send-MailMessage -To $to -Subject $subject -Body $body -SmtpServer "smtp.example.com"
+  }
+}
